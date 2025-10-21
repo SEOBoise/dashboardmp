@@ -1,1 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="forest">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Strategy Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Forest Theme Colors */
+        :root {
+            --logo-size: 120px;
+        }
+        
+        .logo-container {
+            width: var(--logo-size);
+            height: var(--logo-size);
+            margin: 0 auto;
+        }
+        
+        .strategy-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+        
+        .strategy-row:hover {
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="bg-base-200">
+    <!-- Login Page -->
+    <div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+        <div class="card w-full max-w-md bg-base-100 shadow-2xl">
+            <div class="card-body">
+                <h2 class="card-title text-3xl font-bold text-center justify-center mb-6">SEO Dashboard Login</h2>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Password</span>
+                    </label>
+                    <input 
+                        type="password" 
+                        id="passwordInput" 
+                        placeholder="Enter your password" 
+                        class="input input-bordered input-primary w-full" 
+                        onkeypress="handleLoginKeypress(event)"
+                    />
+                </div>
+                <div id="loginError" class="alert alert-error mt-4 hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Incorrect password. Please try again.</span>
+                </div>
+                <div class="card-actions justify-end mt-6">
+                    <button class="btn btn-primary w-full" onclick="login()">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="hidden min-h-screen p-6">
+        <!-- Logo Section -->
+        <div class="flex justify-center mb-8">
+            <div class="logo-container bg-base-100 rounded-lg shadow-lg flex items-center justify-center p-4">
+                <img id="logoImage" src="logo.png" alt="Logo" class="w-full h-full object-contain" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23171e29%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2250%22 font-size=%2216%22 fill=%22%2387c7a1%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3ELOGO%3C/text%3E%3C/svg%3E'">
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-4xl font-bold text-primary">SEO Strategy Dashboard</h1>
+            <button class="btn btn-outline btn-error" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- SEO Strategies Table -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-4">My SEO Strategies</h2>
+                
+                <div class="overflow-x-auto">
+                    <table class="table table-zebra w-full">
+                        <thead>
+                            <tr>
+                                <th class="w-24">Image</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th class="w-32">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="strategiesTableBody">
+                            <!-- Strategies will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Password is hashed with SHA-256
+        // To change password: Generate hash at https://emn178.github.io/online-tools/sha256.html
+        // Current password: "SEO2024!"
+        const PASSWORD_HASH = '3c82bc4374a4c032cac8e86742c2bd28a708408e967a784ea375ebccacc23530';
+        const SESSION_KEY = 'seo_dashboard_session';
+        
+        // SEO Strategies Data
+        const seoStrategies = [
+            {
+                id: 1,
+                image: 'https://via.placeholder.com/80/87c7a1/171e29?text=SEO+1',
+                title: 'Keyword Research & Optimization',
+                description: 'Comprehensive keyword analysis and on-page optimization strategy for high-value search terms.',
+                url: 'strategies/keyword-research.html'
+            },
+            {
+                id: 2,
+                image: 'https://via.placeholder.com/80/87c7a1/171e29?text=SEO+2',
+                title: 'Content Marketing Strategy',
+                description: 'Long-form content creation plan targeting informational queries and building topical authority.',
+                url: 'strategies/content-marketing.html'
+            },
+            {
+                id: 3,
+                image: 'https://via.placeholder.com/80/87c7a1/171e29?text=SEO+3',
+                title: 'Technical SEO Audit',
+                description: 'Site speed optimization, mobile responsiveness, and crawlability improvements.',
+                url: 'strategies/technical-seo.html'
+            },
+            {
+                id: 4,
+                image: 'https://via.placeholder.com/80/87c7a1/171e29?text=SEO+4',
+                title: 'Link Building Campaign',
+                description: 'White-hat backlink acquisition through guest posting, digital PR, and relationship building.',
+                url: 'strategies/link-building.html'
+            },
+            {
+                id: 5,
+                image: 'https://via.placeholder.com/80/87c7a1/171e29?text=SEO+5',
+                title: 'Local SEO Optimization',
+                description: 'Google Business Profile optimization and local citation building for geographic targeting.',
+                url: 'strategies/local-seo.html'
+            },
+            {
+                id: 6,
+                image: 'https://via.placeholder.com/80/87c7a1/171e29?text=SEO+6',
+                title: 'Schema Markup Implementation',
+                description: 'Structured data deployment for rich snippets and enhanced search visibility.',
+                url: 'strategies/schema-markup.html'
+            }
+        ];
+
+        // SHA-256 hash function
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // Check session on page load
+        window.onload = function() {
+            if (sessionStorage.getItem(SESSION_KEY) === 'authenticated') {
+                showDashboard();
+            }
+        };
+
+        async function login() {
+            const password = document.getElementById('passwordInput').value;
+            const errorDiv = document.getElementById('loginError');
+            
+            // Hash the input password
+            const inputHash = await sha256(password);
+            
+            if (inputHash === PASSWORD_HASH) {
+                sessionStorage.setItem(SESSION_KEY, 'authenticated');
+                errorDiv.classList.add('hidden');
+                showDashboard();
+            } else {
+                errorDiv.classList.remove('hidden');
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        function handleLoginKeypress(event) {
+            if (event.key === 'Enter') {
+                login();
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem(SESSION_KEY);
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('passwordInput').value = '';
+        }
+
+        function showDashboard() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('dashboardPage').classList.remove('hidden');
+            renderStrategies();
+        }
+
+        function renderStrategies() {
+            const tbody = document.getElementById('strategiesTableBody');
+            tbody.innerHTML = '';
+            
+            seoStrategies.forEach(strategy => {
+                const row = document.createElement('tr');
+                row.className = 'strategy-row cursor-pointer hover:bg-base-200';
+                
+                row.innerHTML = `
+                    <td>
+                        <img src="${strategy.image}" alt="${strategy.title}" class="strategy-image rounded-lg shadow-md">
+                    </td>
+                    <td class="font-semibold text-lg">${strategy.title}</td>
+                    <td class="text-base-content/70">${strategy.description}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="openStrategy('${strategy.url}')">
+                            View Strategy
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        function openStrategy(url) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+    </script>
+</body>
+</html>
 

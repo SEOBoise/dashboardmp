@@ -1,0 +1,49 @@
+{
+  "password": "SEO2024!",
+  "logo": "logo.png",
+  "strategies": [
+    {
+      "id": 1,
+      "image": "https://via.placeholder.com/80/87c7a1/171e29?text=SEO+1",
+      "title": "Keyword Research & Optimization",
+      "description": "Comprehensive keyword analysis and on-page optimization strategy for high-value search terms.",
+      "url": "strategies/keyword-research.html"
+    },
+    {
+      "id": 2,
+      "image": "https://via.placeholder.com/80/87c7a1/171e29?text=SEO+2",
+      "title": "Content Marketing Strategy",
+      "description": "Long-form content creation plan targeting informational queries and building topical authority.",
+      "url": "strategies/content-marketing.html"
+    },
+    {
+      "id": 3,
+      "image": "https://via.placeholder.com/80/87c7a1/171e29?text=SEO+3",
+      "title": "Technical SEO Audit",
+      "description": "Site speed optimization, mobile responsiveness, and crawlability improvements.",
+      "url": "strategies/technical-seo.html"
+    },
+    {
+      "id": 4,
+      "image": "https://via.placeholder.com/80/87c7a1/171e29?text=SEO+4",
+      "title": "Link Building Campaign",
+      "description": "White-hat backlink acquisition through guest posting, digital PR, and relationship building.",
+      "url": "strategies/link-building.html"
+    },
+    {
+      "id": 5,
+      "image": "https://via.placeholder.com/80/87c7a1/171e29?text=SEO+5",
+      "title": "Local SEO Optimization",
+      "description": "Google Business Profile optimization and local citation building for geographic targeting.",
+      "url": "strategies/local-seo.html"
+    },
+    {
+      "id": 6,
+      "image": "https://via.placeholder.com/80/87c7a1/171e29?text=SEO+6",
+      "title": "Schema Markup Implementation",
+      "description": "Structured data deployment for rich snippets and enhanced search visibility.",
+      "url": "strategies/schema-markup.html"
+    }
+  ]
+}
+
